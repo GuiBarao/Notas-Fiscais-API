@@ -1,0 +1,12 @@
+[
+    {
+        "nome": "NOME_DA_FILIAL",
+        "db_database": "CAMINHO_DO_BANCO",
+        "db_user": "USUARIO_DO_BANCO",
+        "db_password": "SENHA_DO_BANCO",
+        "host": "localhost",
+        "port": 3050,
+        "limite": 5000.0,
+        "status": true
+    }
+]
