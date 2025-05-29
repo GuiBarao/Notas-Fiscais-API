@@ -1,7 +1,8 @@
-from app.services.filialService import getFiliais, setValorTeto
+from app.services.filialService import getFiliais, setValorTeto, getNotas
 from app.schemas.filial_schema import AtualizarTetoSchema
 from database import database_session
 from fastapi import APIRouter, status
+from app.utils.get_infosDB import get_infosDB
 
 filiais_router = APIRouter(prefix="/filiais")
 
@@ -15,21 +16,12 @@ async def mudar_valor_teto(request : AtualizarTetoSchema):
     setValorTeto(request.nomeFilial, request.valorTeto)
     return status.HTTP_201_CREATED
 
+@filiais_router.get("/{filial}/notas")
+async def notas_filial(filial:str):
+    
+    with database_session(get_infosDB(filial)) as con:
+        return getNotas(con)
+    
+        
 
-#from fastapi import APIRouter, Depends
-#from app.schemas.star_wars_character_schema import (
-#    StarWarsCharacterCreate,
-#    StarWarsCharacterRead,
-#)
-#from app.services.characters_service import add_new_character
-#from database import get_db_session
-#
-#characters_router = APIRouter(prefix="/characters")
-#
-#
-#@characters_router.post("/", response_model=StarWarsCharacterRead)
-#async def create_character(
-#    input_character: StarWarsCharacterCreate,
-#    db: Session = Depends(get_db_session),
-#) -> StarWarsCharacterRead:
-#    return add_new_character(input_character, db)
+
