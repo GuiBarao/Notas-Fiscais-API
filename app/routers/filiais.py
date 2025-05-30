@@ -1,5 +1,5 @@
 from app.services.filialService import getFiliais, setValorTeto, getNotas
-from app.schemas.filial_schema import AtualizarTetoSchema
+from app.schemas.filial_schema import FilialSchema
 from database import database_session
 from fastapi import APIRouter, status
 from app.utils.get_infosDB import get_infosDB
@@ -12,7 +12,7 @@ async def filiais():
         
 
 @filiais_router.put('/valor_teto')
-async def mudar_valor_teto(request : AtualizarTetoSchema):
+async def mudar_valor_teto(request : FilialSchema):
     setValorTeto(request.nomeFilial, request.valorTeto)
     return status.HTTP_201_CREATED
 

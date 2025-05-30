@@ -1,6 +1,7 @@
 import json
 from firebird.driver import Connection
 from app.clients.database.consultas import get_nfse_cliente
+from app.schemas.filial_schema import FilialSchema
 from app.models.Nota import Cliente, Erro, Nota
 from enum import Enum
 
@@ -10,7 +11,7 @@ json_caminho = 'conexao.json'
 def getFiliais():
     with open(json_caminho, "r", encoding='utf-8') as arq_json:
         conexoes = json.load(arq_json)
-        return [con['nome'] for con in conexoes if con['status']]
+        return [FilialSchema(nomeFilial=con["nome"], valorTeto=con["limite"]) for con in conexoes if con['status']]
     
 
 def setValorTeto(nome_filial, novo_valor):

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class AtualizarTetoSchema(BaseModel):
+class FilialSchema(BaseModel):
     nomeFilial: str
     valorTeto: float
