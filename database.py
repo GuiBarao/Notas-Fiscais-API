@@ -14,7 +14,6 @@ def database_session(infos_con : ConexaoSchema):
         conexao_db = connect(infos_con.database, user = infos_con.user, password = infos_con.password, charset="UTF8")
         yield conexao_db
     except Exception as e:
-        print(infos_con)
         raise Exception("Falha ao conectar no banco de dados.") from e
     finally:
         if conexao_db:
