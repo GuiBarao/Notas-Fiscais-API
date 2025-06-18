@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 from firebird.driver import connect
 from firebird.driver import driver_config
-from app.schemas.conexao_schema import ConexaoSchema
+from ..schemas.conexao_schema import ConexaoSchema
 
 
 

@@ -1,4 +1,6 @@
 venv/*
 __pycache__/
-conexao.json
+config/conexao.json
 teste.py
+config/.env
+

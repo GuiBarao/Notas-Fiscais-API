@@ -4,12 +4,14 @@ from fastapi import FastAPI, status
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers.filiais import filiais_router
+from .routers.filiais import filiais_router
+
+from config.env import url_front
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000"
+    url_front
 ]
 
 app.add_middleware(
