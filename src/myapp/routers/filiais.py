@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from ..crud.filiais import readFiliais, updateValorTeto
 from ..crud.notas import readNotas
 from ..schemas.FilialSchema import FilialSchema
-from ..database.database import database_session
+from ..db.database import database_session
 from ..utils.get_infosDB import get_infosDB
 
 filiais_router = APIRouter(prefix="/filiais")

@@ -1,0 +1,22 @@
+[
+    {
+        "nome": "DOURADOS",
+        "db_database": "C:\\Users\\Pax Primavera\\Desktop\\FDBs\\Dourados\\SOFTPAX.FDB",
+        "db_user": "SYSDBA",
+        "db_password": "masterkey",
+        "host": "localhost",
+        "port": 3050,
+        "limite": 890.0,
+        "status": true
+    },
+    {
+        "nome": "DOURADOS-CEMITERIO",
+        "db_database": "C:\\Users\\Pax Primavera\\Desktop\\FDBs\\Dourados-Cemiterio\\SOFTPAX.FDB",
+        "db_user": "SYSDBA",
+        "db_password": "masterkey",
+        "host": "localhost",
+        "port": 3050,
+        "limite": 756.0,
+        "status": true
+    }
+]

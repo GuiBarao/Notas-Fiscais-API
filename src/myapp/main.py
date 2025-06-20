@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routers.filiais import filiais_router
 from .routers.usuarios import usuarios_router
 
-from config.env import url_front
+from myapp.config.settings import url_front
 
 app = FastAPI()
 

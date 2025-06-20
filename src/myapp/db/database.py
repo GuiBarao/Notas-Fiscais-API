@@ -1,8 +1,9 @@
 from contextlib import contextmanager
 from firebird.driver import connect
 from firebird.driver import driver_config
-from ..schemas.ConexaoSchema import ConexaoSchema
-
+from myapp.schemas.ConexaoSchema import ConexaoSchema
+from myapp.config.settings import driver, user, password, port, host, database
+from sqlalchemy import create_engine
 
 
 @contextmanager
@@ -18,3 +19,10 @@ def database_session(infos_con : ConexaoSchema):
     finally:
         if conexao_db:
             conexao_db.close()
+
+
+def engine_mySQL():
+    conexao_str = f"mysql+{driver}://{user}:{password}@{host}:{port}/{database}"
+
+    engine = create_engine(conexao_str)
+    return engine
