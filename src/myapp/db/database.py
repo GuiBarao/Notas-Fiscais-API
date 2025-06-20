@@ -2,7 +2,8 @@ from contextlib import contextmanager
 from firebird.driver import connect
 from firebird.driver import driver_config
 from myapp.schemas.ConexaoSchema import ConexaoSchema
-from myapp.config.settings import driver, user, password, port, host, database
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 
@@ -22,7 +23,8 @@ def database_session(infos_con : ConexaoSchema):
 
 
 def engine_mySQL():
-    conexao_str = f"mysql+{driver}://{user}:{password}@{host}:{port}/{database}"
+
+    conexao_str = os.getenv("CONEXAO_DB")
 
     engine = create_engine(conexao_str)
     return engine
