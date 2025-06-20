@@ -12,6 +12,8 @@ dependencies = [
     "uvicorn (>=0.34.3,<0.35.0)",
     "firebird-driver (>=2.0.2,<3.0.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
+    "pwdlib[argon2] (>=0.2.1,<0.3.0)",
+    "sqlalchemy (>=2.0.41,<3.0.0)",
 ]
 
 [tool.poetry]

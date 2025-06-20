@@ -1,5 +1,5 @@
 import json
-from ..schemas.conexao_schema import ConexaoSchema
+from ..schemas.ConexaoSchema import ConexaoSchema
 json_caminho = "config\conexao.json"
 
 def get_infosDB(filial:str) -> ConexaoSchema:
