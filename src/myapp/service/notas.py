@@ -1,7 +1,7 @@
 from enum import Enum
 from firebird.driver import Connection
 from ..models.Nota import Cliente, Erro, Nota
-from ..database.queries.nfse import get_nfse_cliente
+from ..db.queries.nfse import get_nfse_cliente
 
 json_caminho = 'config\conexao.json'
 
