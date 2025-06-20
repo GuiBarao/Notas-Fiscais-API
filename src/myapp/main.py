@@ -5,13 +5,15 @@ from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers.filiais import filiais_router
+from .routers.usuarios import usuarios_router
 
-from config.env import url_front
+import os
+from dotenv import load_dotenv
 
 app = FastAPI()
-
+load_dotenv()
 origins = [
-    url_front
+    os.getenv("URL_FRONT")
 ]
 
 app.add_middleware(
@@ -23,5 +25,6 @@ app.add_middleware(
 )
 
 app.include_router(filiais_router)
+app.include_router(usuarios_router)
 
 

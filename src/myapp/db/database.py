@@ -1,7 +1,11 @@
 from contextlib import contextmanager
 from firebird.driver import connect
 from firebird.driver import driver_config
-from ..schemas.conexao_schema import ConexaoSchema
+from myapp.schemas.ConexaoSchema import ConexaoSchema
+import os
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 
 
@@ -18,3 +22,16 @@ def database_session(infos_con : ConexaoSchema):
     finally:
         if conexao_db:
             conexao_db.close()
+
+
+
+load_dotenv()
+__conexao_str = os.getenv("CONEXAO_DB")
+engine_sqlAlchemy = create_engine(__conexao_str)
+
+def get_session():
+    Session = sessionmaker(bind=engine_sqlAlchemy)
+    return Session()
+
+class Base (DeclarativeBase):
+    pass
