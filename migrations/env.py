@@ -5,9 +5,25 @@ from sqlalchemy import pool
 
 from alembic import context
 
+import os
+from dotenv import load_dotenv
+
+from pathlib import Path
+import sys
+
+project_root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(project_root))
+
+from src.myapp.models.Usuario import Usuario
+from src.myapp.db.database import Base
+
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+load_dotenv()
+config.set_main_option( "sqlalchemy.url" , os.getenv( "CONEXAO_DB" ))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -18,7 +34,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

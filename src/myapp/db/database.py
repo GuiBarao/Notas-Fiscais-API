@@ -5,6 +5,8 @@ from myapp.schemas.ConexaoSchema import ConexaoSchema
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase
+
 
 
 @contextmanager
@@ -22,9 +24,10 @@ def database_session(infos_con : ConexaoSchema):
             conexao_db.close()
 
 
-def engine_mySQL():
 
-    conexao_str = os.getenv("CONEXAO_DB")
+load_dotenv()
+__conexao_str = os.getenv("CONEXAO_DB")
+engine_sqlAlchemy = create_engine(__conexao_str)
 
-    engine = create_engine(conexao_str)
-    return engine
+class Base (DeclarativeBase):
+    pass
