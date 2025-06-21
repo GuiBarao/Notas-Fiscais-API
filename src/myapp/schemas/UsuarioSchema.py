@@ -3,11 +3,12 @@ from typing import List
 
 class UsuarioSchema(BaseModel):
     cpf: str
-    senha: str
     nomeCompleto: str
     nomeUsuario: str
     filiaisPermitidas: List[str]
 
-class UsuarioDB(UsuarioSchema):
-    id: int
-    
+class UsuarioSchemaDB(UsuarioSchema):
+    senha: str
+
+class UsuarioSchemaPublic(UsuarioSchema):
+    id:int

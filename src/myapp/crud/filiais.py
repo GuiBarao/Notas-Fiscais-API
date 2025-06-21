@@ -1,7 +1,7 @@
 import json
 from ..schemas.FilialSchema import FilialSchema
 
-json_caminho = 'config\conexao.json'
+json_caminho = 'src\myapp\config\conexao.json'
 
 def readFiliais():
     with open(json_caminho, "r", encoding='utf-8') as arq_json:

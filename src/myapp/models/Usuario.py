@@ -11,4 +11,4 @@ class Usuario(Base):
     nomeUsuario: Mapped[str] = mapped_column(String(100), unique=True)
     cpf: Mapped[str] = mapped_column(String(11), unique=True)
     senha: Mapped[str] = mapped_column(String(200))
-    filais: Mapped[List[str]] = mapped_column(JSON, default=list)
+    filiais: Mapped[List[str]] = mapped_column(JSON, default=list)
