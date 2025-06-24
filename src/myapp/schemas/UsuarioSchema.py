@@ -8,8 +8,5 @@ class UsuarioSchema(BaseModel):
     nomeUsuario: str
     filiaisPermitidas: List[str]
 
-class UsuarioSchemaDB(UsuarioSchema):
-    senha: str
-
 class UsuarioSchemaPublic(UsuarioSchema):
     id:int
