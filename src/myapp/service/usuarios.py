@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, or_
-from src.myapp.models.Usuario import Usuario
+from src.myapp.models.Usuario import Usuario, Status
 from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema
 from src.myapp.schemas.JWTSchema import JWTSchema
 from fastapi import HTTPException
@@ -10,7 +10,13 @@ from src.myapp.security import get_password_hash, verify_password, create_access
 def readUsuarios(secao: Session):
     usuarios = secao.scalars(select(Usuario)).all()
     
-    users_schema = [UsuarioSchemaPublic(id=user.id,cpf=user.cpf,nomeCompleto=user.nome,nomeUsuario=user.nomeUsuario,filiaisPermitidas=user.filiais) for user in usuarios]
+    users_schema = [UsuarioSchemaPublic(id=user.id,
+                                        cpf=user.cpf,
+                                        nomeCompleto=user.nome,
+                                        nomeUsuario=user.nomeUsuario,
+                                        filiaisPermitidas=user.filiais,
+                                        status=user.status) for user in usuarios]
+
     return users_schema
 
 def createUsuario(cadastro: UsuarioSchema, secao : Session):
