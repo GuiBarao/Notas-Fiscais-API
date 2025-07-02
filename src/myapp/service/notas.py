@@ -3,9 +3,6 @@ from firebird.driver import Connection
 from ..models.Nota import Cliente, Erro, Nota
 from ..db.queries.nfse import get_nfse_cliente
 
-json_caminho = 'config\conexao.json'
-
-
 class Mapa(Enum):
             NOTA_ID = 0     
             DATA = 1

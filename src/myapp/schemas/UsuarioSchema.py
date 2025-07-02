@@ -1,13 +1,21 @@
-from pydantic import BaseModel, field_validator
-from typing import List
+from pydantic import BaseModel, field_validator, BeforeValidator
+from typing import List, Annotated
 from src.myapp.models.Usuario import Status
+
+def isEmpty(value: str) -> str:
+    if not value or not value.strip():
+        raise ValueError("Campo obrigatório")
+    
+    return value
+
 
 
 class UsuarioSchema(BaseModel):
-    cpf: str
-    nomeCompleto: str
-    nomeUsuario: str
+    cpf: Annotated[str, BeforeValidator(isEmpty)]
+    nomeCompleto: Annotated[str, BeforeValidator(isEmpty)]
+    nomeUsuario: Annotated[str, BeforeValidator(isEmpty)]
     filiaisPermitidas: List[str]
+
 
 class UsuarioSchemaPublic(UsuarioSchema):
     id:int

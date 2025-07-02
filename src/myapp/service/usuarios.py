@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, or_
-from src.myapp.models.Usuario import Usuario, Status
+from src.myapp.models.Usuario import Usuario
 from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, UsuarioAutenticadoSchema
 from fastapi import HTTPException
 from http import HTTPStatus
@@ -20,14 +20,13 @@ def readUsuarios(secao: Session):
 
 def createUsuario(cadastro: UsuarioSchema, secao : Session):
     statement = select(Usuario).where( or_(
-        Usuario.nomeUsuario == cadastro.nomeUsuario,
         Usuario.cpf == cadastro.cpf)
     )
 
     db_usuario = secao.scalar(statement)
 
     if db_usuario:
-        raise HTTPException(status_code=HTTPStatus.CONFLICT, detail="Nome de usuário ou CPF já cadastrado")
+        raise HTTPException(status_code=HTTPStatus.CONFLICT, detail="CPF já cadastrado")
     
     #Padrão 3 primeiros dígitos do cpf para senha
     hash_senha = get_password_hash(cadastro.cpf[:3])

@@ -1,6 +1,6 @@
 import json
 from ..schemas.ConexaoSchema import ConexaoSchema
-json_caminho = "config\conexao.json"
+json_caminho = "src\myapp\config\conexao.json"
 
 def get_infosDB(filial:str) -> ConexaoSchema:
     with open(json_caminho, "r", encoding='utf-8') as json_read:
