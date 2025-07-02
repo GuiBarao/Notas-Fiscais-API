@@ -2,6 +2,12 @@ from enum import Enum
 from firebird.driver import Connection
 from ..models.Nota import Cliente, Erro, Nota
 from ..db.queries.nfse import get_nfse_cliente
+<<<<<<< HEAD
+=======
+
+json_caminho = 'config\conexao.json'
+
+>>>>>>> 244a3b9a9e4c6d95bed5108f9cabb2c1d1969be0
 
 class Mapa(Enum):
             NOTA_ID = 0     
