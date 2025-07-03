@@ -5,18 +5,17 @@ from http import HTTPStatus
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from src.myapp.db.database import get_session
+from src.myapp.security import auth_validation
 
 usuarios_router = APIRouter(prefix='/users')
 
 @usuarios_router.post("/", status_code= status.HTTP_201_CREATED)
-async def cadastro (dadosCadastro: UsuarioSchema, secao: Session = Depends(get_session)):
-
+async def cadastro (dadosCadastro: UsuarioSchema, secao: Session = Depends(get_session), _: str = Depends(auth_validation)):
     createUsuario(dadosCadastro, secao)
-
     return dadosCadastro
 
 @usuarios_router.get("/", status_code=HTTPStatus.OK)
-async def get_users(secao: Session = Depends(get_session)):
+async def get_users(secao: Session = Depends(get_session), _: str = Depends(auth_validation)):
     return readUsuarios(secao)
 
 @usuarios_router.post("/token", status_code=status.HTTP_202_ACCEPTED, response_model = UsuarioAutenticadoSchema)

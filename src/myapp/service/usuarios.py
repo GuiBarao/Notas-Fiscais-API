@@ -19,6 +19,7 @@ def readUsuarios(secao: Session):
     return users_schema
 
 def createUsuario(cadastro: UsuarioSchema, secao : Session):
+
     statement = select(Usuario).where( or_(
         Usuario.cpf == cadastro.cpf)
     )

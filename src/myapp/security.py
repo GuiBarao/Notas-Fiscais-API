@@ -3,12 +3,13 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-from jwt import encode
+from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
+from fastapi import HTTPException, status, Header
 
 load_dotenv()
 API_KEY = os.getenv("API_SECRET_KEY")
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 15
 
 __pwd_context = PasswordHash.recommended()
 
@@ -28,3 +29,19 @@ def create_access_token(data: dict):
     encoded_jwt = encode(payload, API_KEY, algorithm=ALGORITHM)
 
     return encoded_jwt
+
+def verify_access_token(token: str) -> dict:
+    try:
+        dados = decode(token, algorithms=[ALGORITHM], key=API_KEY)
+        return dados
+    except:
+        return False
+    
+def auth_validation(authorization: str = Header(...)):
+    if(not authorization.startswith('Bearer ')):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token de autorização mal formatado")
+    token = authorization.split()[1]
+    if(not verify_access_token(token)):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token não autorizado")
+
+    

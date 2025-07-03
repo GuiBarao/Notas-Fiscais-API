@@ -6,7 +6,7 @@
         "db_password": "masterkey",
         "host": "localhost",
         "port": 3050,
-        "limite": 890.0,
+        "limite": 1000.0,
         "status": true
     },
     {
