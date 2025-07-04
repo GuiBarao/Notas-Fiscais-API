@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Depends
-from src.myapp.schemas.UsuarioSchema import UsuarioSchema, UsuarioAutenticadoSchema
-from src.myapp.service.usuarios import readUsuarios, createUsuario, autenticacao
+from src.myapp.schemas.UsuarioSchema import UsuarioSchema, UsuarioAutenticadoSchema, UsuarioSchemaPublic, UsuarioAtualizacaoSchema
+from src.myapp.service.usuarios import readUsuarios, createUsuario, autenticacao, atualizarUsuario
 from http import HTTPStatus
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -22,3 +22,10 @@ async def get_users(secao: Session = Depends(get_session), _: str = Depends(auth
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), secao: Session = Depends(get_session)):
     
     return autenticacao(cpf=form_data.username, senha=form_data.password, session=secao)
+
+@usuarios_router.put("/", status_code=HTTPStatus.OK)
+async def put_usuarios(request : UsuarioAtualizacaoSchema, 
+                       secao: Session = Depends(get_session), 
+                       _: str = Depends(auth_validation)):
+    
+    return atualizarUsuario(request, secao)

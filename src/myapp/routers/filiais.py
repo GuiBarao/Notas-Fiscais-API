@@ -3,7 +3,7 @@ from src.myapp.service.filiais import readFiliais, updateValorTeto
 from src.myapp.service.notas import readNotas
 from src.myapp.schemas.FilialSchema import FilialSchema
 from src.myapp.db.database import database_session
-from src.myapp.utils.get_infosDB import get_infosDB
+from src.myapp.utils import get_infosDB
 from src.myapp.security import auth_validation
 
 

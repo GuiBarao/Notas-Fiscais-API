@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, or_
+from sqlalchemy import update, select, or_
 from src.myapp.models.Usuario import Usuario
-from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, UsuarioAutenticadoSchema
+from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, UsuarioAutenticadoSchema, UsuarioAtualizacaoSchema
 from fastapi import HTTPException
 from http import HTTPStatus
 from src.myapp.security import get_password_hash, verify_password, create_access_token
-from src.myapp.service.filiais import readFiliais
+from src.myapp.utils import selecionaFiliaisPermitidas, buscaUsuarioPorID
 
 def readUsuarios(secao: Session):
     usuarios = secao.scalars(select(Usuario)).all()
@@ -30,18 +30,13 @@ def createUsuario(cadastro: UsuarioSchema, secao : Session):
     if db_usuario:
         raise HTTPException(status_code=HTTPStatus.CONFLICT, detail="CPF já cadastrado")
     
-    #Quando a requisição de cadastro não espeicifcas as filiais, o sistema assume que são todas.
-    if(len(cadastro.filiaisPermitidas) == 0):
-        filiaisDisponiveis = readFiliais()
-        cadastro.filiaisPermitidas = [filialSchema.nomeFilial for filialSchema in filiaisDisponiveis]
+    filiaisProcessadas = selecionaFiliaisPermitidas(cadastro.filiaisPermitidas)
 
     #Padrão 3 primeiros dígitos do cpf para senha.
     hash_senha = get_password_hash(cadastro.cpf[:3])
 
-    filiaisUpper = [filial.upper() for filial in cadastro.filiaisPermitidas]
-
     db_usuario = Usuario(nome= cadastro.nomeCompleto ,nomeUsuario= cadastro.nomeUsuario, 
-                         cpf= cadastro.cpf , senha= hash_senha, filiais= filiaisUpper)
+                         cpf= cadastro.cpf , senha= hash_senha, filiais= filiaisProcessadas)
     secao.add(db_usuario)
     secao.commit()
     secao.refresh(db_usuario)
@@ -67,3 +62,31 @@ def autenticacao(cpf: str, senha: str, session: Session):
                                filiaisPermitidas=user.filiais,
                                access_token=token, 
                                token_type="Bearer")
+
+def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario | None:
+    usuario = buscaUsuarioPorID(dados.id, secao)
+
+    if not usuario:
+        return None
+
+    if dados.cpf is not None:
+        usuario.cpf = dados.cpf
+
+    if dados.nomeCompleto is not None:
+        usuario.nome = dados.nomeCompleto
+
+    if dados.nomeUsuario is not None:
+        usuario.nomeUsuario = dados.nomeUsuario
+
+    if dados.filiaisPermitidas is not None:
+        usuario.filiais =  selecionaFiliaisPermitidas(dados.filiaisPermitidas)
+
+
+    secao.commit()
+    
+    secao.refresh(usuario)
+    
+    return UsuarioSchemaPublic(id=usuario.id, cpf=usuario.cpf, nomeCompleto=usuario.nome,
+                               status=usuario.status, filiaisPermitidas=usuario.filiais, 
+                               nomeUsuario=usuario.nomeUsuario)
+    
