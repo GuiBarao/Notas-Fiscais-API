@@ -9,7 +9,7 @@ from fastapi import HTTPException, status, Header
 load_dotenv()
 API_KEY = os.getenv("API_SECRET_KEY")
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 __pwd_context = PasswordHash.recommended()
 
@@ -43,5 +43,3 @@ def auth_validation(authorization: str = Header(...)):
     token = authorization.split()[1]
     if(not verify_access_token(token)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token não autorizado")
-
-    

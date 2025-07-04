@@ -8,8 +8,6 @@ def isEmpty(value: str) -> str:
     
     return value
 
-
-
 class UsuarioSchema(BaseModel):
     cpf: Annotated[str, BeforeValidator(isEmpty)]
     nomeCompleto: Annotated[str, BeforeValidator(isEmpty)]

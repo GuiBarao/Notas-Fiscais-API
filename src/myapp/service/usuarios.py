@@ -5,6 +5,7 @@ from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, 
 from fastapi import HTTPException
 from http import HTTPStatus
 from src.myapp.security import get_password_hash, verify_password, create_access_token
+from src.myapp.service.filiais import readFiliais
 
 def readUsuarios(secao: Session):
     usuarios = secao.scalars(select(Usuario)).all()
@@ -29,9 +30,13 @@ def createUsuario(cadastro: UsuarioSchema, secao : Session):
     if db_usuario:
         raise HTTPException(status_code=HTTPStatus.CONFLICT, detail="CPF já cadastrado")
     
-    #Padrão 3 primeiros dígitos do cpf para senha
-    hash_senha = get_password_hash(cadastro.cpf[:3])
+    #Quando a requisição de cadastro não espeicifcas as filiais, o sistema assume que são todas.
+    if(len(cadastro.filiaisPermitidas) == 0):
+        filiaisDisponiveis = readFiliais()
+        cadastro.filiaisPermitidas = [filialSchema.nomeFilial for filialSchema in filiaisDisponiveis]
 
+    #Padrão 3 primeiros dígitos do cpf para senha.
+    hash_senha = get_password_hash(cadastro.cpf[:3])
 
     filiaisUpper = [filial.upper() for filial in cadastro.filiaisPermitidas]
 
