@@ -1,17 +1,29 @@
 import json
-from ..schemas.FilialSchema import FilialSchema
+from src.myapp.schemas.FilialSchema import FilialSchema
+from src.myapp.utils import conexaoFirebirdJSON, getFiliaisJSON
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from src.myapp.models.Usuario import Usuario
 
-json_caminho = 'src\myapp\config\conexao.json'
+def getFiliaisPermitidas(idUsuario: int, secao: Session) -> list:
+    usuario = secao.scalar(select(Usuario).where(Usuario.id == idUsuario))
 
-def readFiliais():
-    with open(json_caminho, "r", encoding='utf-8') as arq_json:
-        conexoes = json.load(arq_json)
+    if usuario is None:
+        return None
 
-        return [FilialSchema(nomeFilial=con["nome"], valorTeto=con["limite"]) for con in conexoes if con['status']]
+    return usuario.filiais
+
+def readFiliais(idUsuario: int, secao: Session):
+
+    filiaisDisponiveis = getFiliaisJSON()
+
+    filiaisPermitidas = getFiliaisPermitidas(idUsuario, secao)
+ 
+    return list(filter(lambda x : x.nomeFilial in filiaisPermitidas, filiaisDisponiveis))
 
 
 def updateValorTeto(nome_filial, novo_valor):
-    with open(json_caminho, "r", encoding='utf-8') as json_read:
+    with open(conexaoFirebirdJSON, "r", encoding='utf-8') as json_read:
         conexoes = json.load(json_read)
 
         for con in conexoes:
@@ -19,5 +31,5 @@ def updateValorTeto(nome_filial, novo_valor):
                 con["limite"] = novo_valor 
                 break
         
-        with open(json_caminho, "w", encoding='utf-8') as json_write:
+        with open(conexaoFirebirdJSON, "w", encoding='utf-8') as json_write:
             json.dump(conexoes, json_write, ensure_ascii=False, indent=4)

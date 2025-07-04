@@ -4,14 +4,17 @@ from src.myapp.service.notas import readNotas
 from src.myapp.schemas.FilialSchema import FilialSchema
 from src.myapp.db.database import database_session
 from src.myapp.utils import get_infosDB
-from src.myapp.security import auth_validation
-
+from src.myapp.security import auth_validation, getPayload
+from sqlalchemy.orm import Session
+from src.myapp.db.database import get_session
 
 filiais_router = APIRouter(prefix="/filiais")
 
 @filiais_router.get("/")
-async def filiais(_: str = Depends(auth_validation)):
-    return readFiliais()
+async def filiais(token: str = Depends(auth_validation), secao: Session = Depends(get_session)):
+    payload = getPayload(token)
+    loggedUserID = payload["id"]
+    return readFiliais(loggedUserID, secao)
 
 @filiais_router.put('/valor_teto')
 async def mudar_valor_teto(request : FilialSchema, _: str = Depends(auth_validation)):

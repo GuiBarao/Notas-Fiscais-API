@@ -51,7 +51,8 @@ def autenticacao(cpf: str, senha: str, session: Session):
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="CPF ou senha inválidos")
     
     data = {
-        "username": cpf
+        "username": cpf,
+        "id": user.id
     }
 
     token = create_access_token(data)

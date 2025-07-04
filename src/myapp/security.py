@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
+from jwt import encode, decode
 from fastapi import HTTPException, status, Header
 
 load_dotenv()
@@ -43,3 +43,9 @@ def auth_validation(authorization: str = Header(...)):
     token = authorization.split()[1]
     if(not verify_access_token(token)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token não autorizado")
+    
+    return token
+
+
+def getPayload(token:str):
+    return decode(token, API_KEY, ALGORITHM)
