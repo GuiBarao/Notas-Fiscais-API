@@ -3,15 +3,17 @@ from src.myapp.service.filiais import readFiliais, updateValorTeto
 from src.myapp.service.notas import readNotas
 from src.myapp.schemas.FilialSchema import FilialSchema
 from src.myapp.db.database import database_session
-from src.myapp.utils import get_infosDB
+from src.myapp.service.filiais import get_infosDB
 from src.myapp.security import auth_validation, getPayload
 from sqlalchemy.orm import Session
 from src.myapp.db.database import get_session
+from typing import List
 
 filiais_router = APIRouter(prefix="/filiais")
 
-@filiais_router.get("/")
-async def filiais(token: str = Depends(auth_validation), secao: Session = Depends(get_session)):
+@filiais_router.get("/", response_model= List[FilialSchema], status_code= status.HTTP_200_OK)
+async def filiais(token: str = Depends(auth_validation), 
+                  secao: Session = Depends(get_session)):
     payload = getPayload(token)
     loggedUserID = payload["id"]
     return readFiliais(loggedUserID, secao)

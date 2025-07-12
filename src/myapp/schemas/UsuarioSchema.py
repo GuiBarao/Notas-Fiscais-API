@@ -20,7 +20,7 @@ class UsuarioSchemaPublic(UsuarioSchema):
     status: bool
 
     @field_validator("status", mode = "before")
-    def status_bool(cls, v):
+    def status_to_bool(cls, v):
         return v == Status.ATIVO
     
 class UsuarioAutenticadoSchema(UsuarioSchema):
@@ -32,9 +32,7 @@ class UsuarioAtualizacaoSchema(BaseModel):
     cpf: Annotated[Optional[str], BeforeValidator(isEmpty)] = None
     nomeCompleto: Annotated[Optional[str], BeforeValidator(isEmpty)] = None
     nomeUsuario: Annotated[Optional[str], BeforeValidator(isEmpty)] = None
+    senha: Annotated[Optional[str], BeforeValidator(isEmpty)] = None
     filiaisPermitidas: Optional[List[str]] = None
     status: Optional[bool] = None
 
-    @field_validator("status", mode = "before")
-    def status_bool(cls, v):
-        return v == Status.ATIVO
