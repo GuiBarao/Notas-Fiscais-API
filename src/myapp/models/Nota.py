@@ -1,4 +1,4 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, field_validator
 from typing import Optional
 from datetime import date
 
@@ -19,12 +19,14 @@ class Nota(BaseModel):
     erro: Optional[Erro] = None
     cliente: Cliente
 
+    #Se status for true, a nota não tem erro
     @model_validator(mode='after')
     def valida_erro(self):
         if(self.status):
             self.erro = None
         return self
     
-        
-
-    
+    #Status retorna '0' ou '1' do banco. '0' para false e '1' pra true
+    @field_validator("status", mode = "before")
+    def status_to_bool(cls, v):
+        return v == '1'

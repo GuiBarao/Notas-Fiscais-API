@@ -28,4 +28,5 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), secao: Session
 async def put_usuarios(request : UsuarioAtualizacaoSchema, 
                        secao: Session = Depends(get_session), 
                        _: str = Depends(auth_validation)):
+    
     return atualizarUsuario(request, secao)

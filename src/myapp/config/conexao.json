@@ -1,22 +1,69 @@
+
 [
     {
         "nome": "DOURADOS",
+        "class": "GovBetha",
+        "db_host": "localhost",
+        "db_port": 3050,
         "db_database": "C:\\Users\\Pax Primavera\\Desktop\\FDBs\\Dourados\\SOFTPAX.FDB",
         "db_user": "SYSDBA",
         "db_password": "masterkey",
-        "host": "localhost",
-        "port": 3050,
-        "limite": 234.0,
-        "status": true
+        "limite": 1400000,
+        "status": true,
+        "url_portal": "https://e-gov.betha.com.br/e-nota/login.faces",
+        "usuario_portal": "CAIOUEMURA",
+        "senha_portal": "Fiat@2025",
+        "dados_adicionais":{
+            "url_selecao": "https://e-gov.betha.com.br/e-nota/selecaodemodulo.faces",
+            "url_emissao": "https://e-gov.betha.com.br/e-nota/contribuinte/cad_notasfiscais.faces",
+            "municipio": 5113,
+            "servico": "2501",
+            "cnpj": "00122815000143"
+        }
     },
     {
         "nome": "DOURADOS-CEMITERIO",
+        "class": "GovBetha",
+        "db_host": "localhost",
+        "db_port": 3050,
         "db_database": "C:\\Users\\Pax Primavera\\Desktop\\FDBs\\Dourados-Cemiterio\\SOFTPAX.FDB",
         "db_user": "SYSDBA",
         "db_password": "masterkey",
-        "host": "localhost",
-        "port": 3050,
-        "limite": 756.0,
-        "status": true
+        "limite": 20000,
+        "status": true,
+        "url_portal": "https://e-gov.betha.com.br/e-nota/login.faces",
+        "usuario_portal": "CAIOUEMURA",
+        "senha_portal": "Fiat@2023",
+        "dados_adicionais":{
+            "url_selecao": "https://e-gov.betha.com.br/e-nota/selecaodemodulo.faces",
+            "url_emissao": "https://e-gov.betha.com.br/e-nota/contribuinte/cad_notasfiscais.faces",
+            "municipio": 5113,
+            "servico": "2501",
+            "cnpj": "00122815000143"
+        }
+    },
+        {
+        "nome": "GUAIRA",
+        "class": "AtendeNet",
+        "db_host": "guaira.paxprimavera.com",
+        "db_port": 3050,
+        "db_database": "C:\\Genus\\Dados\\Guaira\\SOFTPAX.FDB",
+        "db_user": "SYSDBA",
+        "db_password": "masterkey",
+        "limite": 30000,
+        "status": true,
+        "url_portal": "https://nfse-guaira.atende.net/autoatendimento/servicos/nfse",
+        "usuario_portal": "80404403000216",
+        "senha_portal": "76ua08qf",
+        "dados_adicionais": {
+            "input_login": "/html/body/div[1]/div[2]/span[3]/input",
+            "input_senha": "/html/body/div[1]/div[2]/span[5]/div/input",
+            "button_login": "/html/body/div[1]/div[2]/span[7]/button",
+            "mov_button_menu_fiscal": 70,
+            "localPrestacao": "7571",
+            "servico": "2501",
+            "quantidade": true,
+            "aliquota":"4,01"
+        }
     }
 ]

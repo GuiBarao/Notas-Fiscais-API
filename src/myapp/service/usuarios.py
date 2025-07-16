@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import update, select, or_, and_
+from sqlalchemy import update, select, and_
 from src.myapp.models.Usuario import Usuario
 from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, UsuarioAutenticadoSchema, UsuarioAtualizacaoSchema
 from fastapi import HTTPException
@@ -28,7 +28,6 @@ def readUsuarios(secao: Session):
     return users_schema
 
 def createUsuario(cadastro: UsuarioSchema, secao : Session):
-
     statement = select(Usuario).where(
         Usuario.cpf == cadastro.cpf
     )
@@ -40,7 +39,7 @@ def createUsuario(cadastro: UsuarioSchema, secao : Session):
 
     #Se nenhuma filial for passada no cadastro, o sistema assume que deve permitir todas
     if len(cadastro.filiaisPermitidas) == 0:
-        filiaisDisponiveis = filiaisJsonToSchema()
+        filiaisDisponiveis = filiaisJsonToSchema(secao)
         cadastro.filiaisPermitidas = [filial.nomeFilial for filial in filiaisDisponiveis]
     
 
@@ -55,11 +54,8 @@ def createUsuario(cadastro: UsuarioSchema, secao : Session):
 
 def autenticacao(cpf: str, senha: str, session: Session):
     user = session.scalar(select(Usuario).where(Usuario.cpf == cpf))
-
-    if not user:
-        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="CPF ou senha inválidos")
-
-    if not verify_password(senha, user.senha):
+    
+    if not user or not verify_password(senha, user.senha) or user.status == Status.INATIVO:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="CPF ou senha inválidos")
     
     data = {
@@ -101,7 +97,7 @@ def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario
 
     if dados.filiaisPermitidas is not None:
         if len(dados.filiaisPermitidas) == 0:   
-            filiaisDisponiveis = filiaisJsonToSchema(dados.id, secao)
+            filiaisDisponiveis = filiaisJsonToSchema(secao, dados.id)
             usuario.filiais = [filial.nomeFilial for filial in filiaisDisponiveis]
         else:
             usuario.filiais = dados.filiaisPermitidas

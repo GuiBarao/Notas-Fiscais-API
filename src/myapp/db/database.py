@@ -15,9 +15,10 @@ def database_session(infos_con : ConexaoSchema):
     try:
         driver_config.server_defaults.host.value = infos_con.host
         driver_config.server_defaults.port.value = infos_con.port
-        conexao_db = connect(infos_con.database, user = infos_con.user, password = infos_con.password, charset="UTF8")
+        conexao_db = connect(infos_con.database, user = infos_con.user, password = infos_con.password, charset="ISO8859_1")
         yield conexao_db
     except Exception as e:
+        print(e)
         raise Exception("Falha ao conectar no banco de dados.") from e
     finally:
         if conexao_db:

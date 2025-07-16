@@ -1,0 +1,46 @@
+2024-08-09 10:40:53 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:53869
+2024-08-09 10:40:54 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session HTTP/1.1" 200 0
+2024-08-09 10:40:54 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/window/maximize HTTP/1.1" 200 0
+2024-08-09 10:40:54 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/url HTTP/1.1" 200 0
+2024-08-09 10:40:54 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:56 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.519E73AEB9DEA9AEBCF38F800E9B8454.e.2/click HTTP/1.1" 200 0
+2024-08-09 10:40:56 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:56 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.16/clear HTTP/1.1" 200 0
+2024-08-09 10:40:56 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.16/value HTTP/1.1" 200 0
+2024-08-09 10:40:57 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:57 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.15/clear HTTP/1.1" 200 0
+2024-08-09 10:40:57 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.15/value HTTP/1.1" 200 0
+2024-08-09 10:40:58 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:58 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.33/click HTTP/1.1" 200 0
+2024-08-09 10:40:58 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 404 0
+2024-08-09 10:40:59 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:59 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element HTTP/1.1" 200 0
+2024-08-09 10:40:59 - urllib3.connectionpool - DEBUG - http://localhost:53869 "POST /session/9a7fee3d8ff4153d9da193f0cb283c5b/element/f.FB9F94D369807707C04A669E9F62639D.d.94C78BAD2F453A9FE9D82BA5A1C5865D.e.38/clear HTTP/1.1" 400 0
+2024-08-09 10:40:59 - root - ERROR - Erro de interação com o elemento: Message: element not interactable
+  (Session info: MicrosoftEdge=127.0.2651.86)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7ECFD05F2+11762]
+	Microsoft::Applications::Events::ILogConfiguration::operator* [0x00007FF7ECF70939+271465]
+	(No symbol) [0x00007FF7ECD8FCD5]
+	(No symbol) [0x00007FF7ECDCDF4A]
+	(No symbol) [0x00007FF7ECDF5F3A]
+	(No symbol) [0x00007FF7ECDCC2FD]
+	(No symbol) [0x00007FF7ECDCC1CD]
+	(No symbol) [0x00007FF7ECDF6220]
+	(No symbol) [0x00007FF7ECDCC2FD]
+	(No symbol) [0x00007FF7ECE0FA97]
+	(No symbol) [0x00007FF7ECDF5BA3]
+	(No symbol) [0x00007FF7ECDCB80C]
+	(No symbol) [0x00007FF7ECDCACED]
+	(No symbol) [0x00007FF7ECDCB3D1]
+	Microsoft::Applications::Events::EventProperty::empty [0x00007FF7ED14B574+879700]
+	Microsoft::Applications::Events::EventProperty::~EventProperty [0x00007FF7ECF05D5F+56159]
+	Microsoft::Applications::Events::EventProperty::~EventProperty [0x00007FF7ECEF86F3+1267]
+	Microsoft::Applications::Events::EventProperty::empty [0x00007FF7ED14A2CD+874925]
+	Microsoft::Applications::Events::ILogConfiguration::operator* [0x00007FF7ECF78531+303201]
+	Microsoft::Applications::Events::ILogConfiguration::operator* [0x00007FF7ECF748F4+287780]
+	Microsoft::Applications::Events::ILogConfiguration::operator* [0x00007FF7ECF74A2B+288091]
+	Microsoft::Applications::Events::ILogConfiguration::operator* [0x00007FF7ECF6C980+255152]
+	BaseThreadInitThunk [0x00007FFE4A16257D+29]
+	RtlUserThreadStart [0x00007FFE4ADAAF28+40]
+

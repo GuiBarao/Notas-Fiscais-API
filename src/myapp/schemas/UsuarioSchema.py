@@ -14,6 +14,12 @@ class UsuarioSchema(BaseModel):
     nomeUsuario: Annotated[str, BeforeValidator(isEmpty)]
     filiaisPermitidas: List[str]
 
+    @field_validator("cpf", mode="before")
+    def numerico(cls, v:str):
+        if v.isnumeric():
+            return v
+        raise ValueError("Campo de CPF suporta apenas caracteres numéricos")        
+
 
 class UsuarioSchemaPublic(UsuarioSchema):
     id:int

@@ -3,7 +3,7 @@ from src.myapp.schemas.FilialSchema import FilialSchema
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from src.myapp.models.Usuario import Usuario
-from typing import List
+from typing import List, Optional
 from src.myapp.schemas.ConexaoSchema import ConexaoSchema
 import os
 from dotenv import load_dotenv
@@ -19,14 +19,14 @@ def get_infosDB(filial:str) -> ConexaoSchema:
         for con in conexoes:
             if con["nome"].capitalize() == filial.capitalize():
                 return ConexaoSchema(database=con["db_database"], user=con["db_user"],
-                                      password=con["db_password"], host=con["host"], port=str(con["port"])) 
+                                      password=con["db_password"], host=con["db_host"], port=str(con["db_port"])) 
         
         raise ValueError(f"Filial {filial} não encontrada.")
 
 
-def filiaisJsonToSchema(idUsuario, secao) -> List[FilialSchema]:
+def filiaisJsonToSchema(secao: Session, idUsuario: Optional[int] = None) -> List[FilialSchema]:
 
-    filiaisPermitidas = getFiliaisPermitidas(idUsuario, secao)
+    filiaisPermitidas = getFiliaisPermitidas(idUsuario, secao) if idUsuario else []
 
     with open(conexaoFirebirdJSON, "r", encoding='utf-8') as arq_json:
         conexoes = json.load(arq_json)
@@ -46,7 +46,7 @@ def getFiliaisPermitidas(idUsuario: int, secao: Session) -> list:
 
 def readFiliais(idUsuario: int, secao: Session) -> List[FilialSchema]:
 
-    filiaisDisponiveis = filiaisJsonToSchema(idUsuario, secao)
+    filiaisDisponiveis = filiaisJsonToSchema(secao, idUsuario)
 
     return filiaisDisponiveis
 
