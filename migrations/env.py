@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import create_engine
 from sqlalchemy import pool
 
 from alembic import context
@@ -73,11 +73,15 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    db_url = os.getenv("CONEXAO_DB")
+    
+    if not db_url:
+        raise Exception("Erro na string de conexão com banco de dados.")
+
+    connectable = create_engine(
+    db_url,
+    poolclass=pool.NullPool,
+)
 
     with connectable.connect() as connection:
         context.configure(

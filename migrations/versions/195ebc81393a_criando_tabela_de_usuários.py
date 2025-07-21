@@ -27,10 +27,10 @@ def upgrade() -> None:
     sa.Column('nomeUsuario', sa.String(length=100), nullable=False),
     sa.Column('cpf', sa.String(length=11), nullable=False),
     sa.Column('senha', sa.String(length=200), nullable=False),
-    sa.Column('filais', sa.JSON(), nullable=False),
+    sa.Column('filiais', sa.JSON(), nullable=False),
+    sa.Column('status',sa.Enum('INATIVO', 'ATIVO', name='status', native_enum=False)),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('cpf'),
-    sa.UniqueConstraint('nomeUsuario')
+    sa.UniqueConstraint('cpf')    
     )
     # ### end Alembic commands ###
 
