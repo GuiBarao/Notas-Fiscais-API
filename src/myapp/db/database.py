@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from fastapi import HTTPException, status
+from pathlib import Path
 
 def get_caminhoAbsoluto(caminho_relativo: str):
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    projeto_root = os.path.abspath(os.path.join(base_dir, "..", "..", ".."))
-    return os.path.join(projeto_root, caminho_relativo)
+    raiz = Path(__file__).resolve().parent.parent
+    return raiz / caminho_relativo
 
 @contextmanager
 def database_session(infos_con : ConexaoSchema):

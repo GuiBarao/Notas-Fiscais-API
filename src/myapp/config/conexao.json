@@ -5,7 +5,7 @@
         "class": "GovBetha",
         "db_host": "localhost",
         "db_port": 3050,
-        "db_database": "src\\myapp\\db\\firebird\\FDBs\\Dourados\\SOFTPAX.FDB",
+        "db_database": "db\\firebird\\FDBs\\Dourados\\SOFTPAX.FDB",
         "db_user": "SYSDBA",
         "db_password": "masterkey",
         "limite": 1400000,
