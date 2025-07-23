@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update, select, and_
 from src.myapp.models.Usuario import Usuario
 from src.myapp.schemas.UsuarioSchema import UsuarioSchemaPublic, UsuarioSchema, UsuarioAutenticadoSchema, UsuarioAtualizacaoSchema
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from http import HTTPStatus
 from src.myapp.security import get_password_hash, verify_password, create_access_token
 from src.myapp.service.filiais import filiaisJsonToSchema
@@ -10,9 +10,12 @@ from src.myapp.models.Usuario import Status
 
 def buscaUsuarioPorID(id: int, secao: Session) -> Usuario | None:
     try:
-        return secao.scalar(select(Usuario).where(Usuario.id == id))
+        usuario = secao.scalar(select(Usuario).where(Usuario.id == id))
+        if not usuario:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado")
+        return usuario
     except:
-        raise Exception("Usuário não encontado")
+        raise HTTPException(status_code= status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Falha ao consultar o banco de dados.")
 
 
 def readUsuarios(secao: Session):
@@ -72,16 +75,13 @@ def autenticacao(cpf: str, senha: str, session: Session):
                                access_token=token, 
                                token_type="Bearer")
 
-def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario | None:
+def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario:
     usuario = buscaUsuarioPorID(dados.id, secao)
-
-    if not usuario:
-        return None
-
+    
     if dados.cpf is not None:
         statement = select(Usuario).where(and_(Usuario.cpf == dados.cpf, Usuario.id != dados.id))
         if secao.scalar(statement):
-            raise HTTPException(status_code=HTTPStatus.CONFLICT, detail="CPF já cadastrado")
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="CPF já cadastrado")
 
         usuario.cpf = dados.cpf
 
@@ -96,11 +96,13 @@ def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario
         usuario.senha = hash_senha
 
     if dados.filiaisPermitidas is not None:
+        
         if len(dados.filiaisPermitidas) == 0:   
             filiaisDisponiveis = filiaisJsonToSchema(secao, dados.id)
             usuario.filiais = [filial.nomeFilial for filial in filiaisDisponiveis]
         else:
             usuario.filiais = dados.filiaisPermitidas
+    
 
     if dados.status is not None:
 
@@ -110,7 +112,7 @@ def atualizarUsuario(dados: UsuarioAtualizacaoSchema, secao: Session) -> Usuario
     secao.commit()
     
     secao.refresh(usuario)
-    
+
     return UsuarioSchemaPublic(id=usuario.id, cpf=usuario.cpf, nomeCompleto=usuario.nome,
                                status=usuario.status, filiaisPermitidas=usuario.filiais, 
                                nomeUsuario=usuario.nomeUsuario)

@@ -7,20 +7,16 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from fastapi import HTTPException, status
-from pathlib import Path
 
-def get_caminhoAbsoluto(caminho_relativo: str):
-    raiz = Path(__file__).resolve().parent.parent
-    return raiz / caminho_relativo
 
 @contextmanager
 def database_session(infos_con : ConexaoSchema):
     conexao_db = None
-    caminho_absoluto = get_caminhoAbsoluto(infos_con.database)
+    
     try:
         driver_config.server_defaults.host.value = infos_con.host
         driver_config.server_defaults.port.value = infos_con.port
-        conexao_db = connect(caminho_absoluto, user = infos_con.user, password = infos_con.password, charset="ISO8859_1")
+        conexao_db = connect(infos_con.database, user = infos_con.user, password = infos_con.password, charset="ISO8859_1")
         yield conexao_db
     except Exception as e:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
@@ -35,8 +31,11 @@ __conexao_str = os.getenv("CONEXAO_DB")
 engine_sqlAlchemy = create_engine(__conexao_str)
 
 def get_session():
-    Session = sessionmaker(bind=engine_sqlAlchemy)
-    return Session()
+    try:
+        Session = sessionmaker(bind=engine_sqlAlchemy)
+        return Session()
+    except Exception as e:
+        raise Exception("Erro ao conectar com o banco de dados.")
 
 class Base (DeclarativeBase):
     pass

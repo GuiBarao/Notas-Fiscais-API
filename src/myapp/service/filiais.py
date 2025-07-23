@@ -29,7 +29,7 @@ def filiaisJsonToSchema(secao: Session, idUsuario: Optional[int] = None) -> List
 
     with open(PATH_JSON_CONEXOES_FIREBIRD, "r", encoding='utf-8') as arq_json:
         conexoes = json.load(arq_json)
-
+        
     return [FilialSchema(nomeFilial=con["nome"], valorTeto=con["limite"], filialPermitida=con["nome"] in filiaisPermitidas) 
             for con in conexoes 
             if con['status']]
