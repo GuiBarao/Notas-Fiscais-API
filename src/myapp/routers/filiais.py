@@ -32,6 +32,3 @@ async def notas_filial(request: Annotated[NotasRequestSchema, Query()], _: str =
     with database_session(get_infosDB(request.nomeFilial)) as con:
         return readNotas(con, dataInicial = request.dataInicial, dataFinal=request.dataFinal)
     
-        
-
-

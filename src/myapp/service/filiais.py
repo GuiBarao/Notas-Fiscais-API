@@ -6,6 +6,7 @@ from src.myapp.models.Usuario import Usuario
 from typing import List, Optional
 from src.myapp.schemas.ConexaoSchema import ConexaoSchema
 from pathlib import Path
+from fastapi import HTTPException, status
 
 #Pega o caminho pro json de conexões firebird
 raizProjeto = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ def get_infosDB(filial:str) -> ConexaoSchema:
                 return ConexaoSchema(database=con["db_database"], user=con["db_user"],
                                       password=con["db_password"], host=con["db_host"], port=str(con["db_port"])) 
         
-        raise ValueError(f"Filial {filial} não encontrada.")
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=f"Filial {filial} não encontrada.")
 
 
 def filiaisJsonToSchema(secao: Session, idUsuario: Optional[int] = None) -> List[FilialSchema]:

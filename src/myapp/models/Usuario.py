@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped, mapped_column, validates
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import JSON, String, Enum as sqlAlchemy_Enum
 from src.myapp.db.database import Base
 from typing import List

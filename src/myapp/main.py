@@ -4,8 +4,8 @@ from fastapi import FastAPI, status
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers.filiais import filiais_router
-from .routers.usuarios import usuarios_router
+from src.myapp.routers.filiais import filiais_router
+from src.myapp.routers.usuarios import usuarios_router
 
 import os
 from dotenv import load_dotenv
