@@ -1,6 +1,8 @@
 from pydantic import BaseModel, model_validator, field_validator
 from typing import Optional
 from datetime import date
+from decimal import Decimal
+
 
 class Cliente(BaseModel):
     cpf_cnpj: str
@@ -10,11 +12,12 @@ class Erro(BaseModel):
     mensagem: Optional[str] = None
     log: Optional[str] = None
 
+
 class Nota(BaseModel):
     
     id: int
     data_cadastro: date
-    valor: float
+    valor: Decimal
     status: bool
     erro: Optional[Erro] = None
     cliente: Cliente
@@ -30,3 +33,4 @@ class Nota(BaseModel):
     @field_validator("status", mode = "before")
     def status_to_bool(cls, v):
         return v == '1'
+    

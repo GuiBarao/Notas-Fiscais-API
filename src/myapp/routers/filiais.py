@@ -28,7 +28,17 @@ async def mudar_valor_teto(request : FilialSchema, _: str = Depends(auth_validat
     return status.HTTP_201_CREATED
 
 @filiais_router.get("/notas")
-async def notas_filial(request: Annotated[NotasRequestSchema, Query()], _: str = Depends(auth_validation)):
+async def notas_filial(request: Annotated[NotasRequestSchema, Query()], 
+                       token: str = Depends(auth_validation), 
+                       secao: Session = Depends(get_session)):
+    
+    payload = getPayload(token)
+    idUsuario = payload["id"]
+    
     with database_session(get_infosDB(request.nomeFilial)) as con:
-        return readNotas(con, dataInicial = request.dataInicial, dataFinal=request.dataFinal)
+        return readNotas(con, idUsuario=idUsuario, 
+                         dataInicial = request.dataInicial, 
+                         dataFinal=request.dataFinal,
+                         filial = request.nomeFilial,
+                         secao=secao)
     
