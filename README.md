@@ -17,6 +17,7 @@ Este sistema fornece uma API para acessar dados de notas fiscais eletrônicas.
 - Instale localmente o python em uma versão igual ou superior a 3.11. Download disponível no <a href = https://www.python.org/downloads/ > link oficial </a>.
 
 - Instale localmente o MySQL na versão 8.0.*. Download disponível no <a href = https://dev.mysql.com/downloads/installer/ > link oficial </a>.
+  - Crie um banco de dados para armazenar os usuários do sistema. 
   
 - Clone o projeto.
 
