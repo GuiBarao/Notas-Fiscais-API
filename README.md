@@ -22,6 +22,7 @@ Este sistema fornece uma API para acessar dados de notas fiscais eletrônicas.
 - Clone o projeto.
 
 - Edite as insformações do arquivo .env_exemplo de acordo com seu ambiente.
+- Na pasta src/myapp/config/ crie um arquivo conexao.json com o acesso aos bancos de dados firebird das notas.
   
 - No diretório do projeto execute <strong> pip install poetry==2.1.3 </strong> para instalar o gerenciador de dependências deste sistema.
   - OBS: Poetry deve ser instalado globalmente (sem ambiente virtual).
