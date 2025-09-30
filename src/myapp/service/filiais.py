@@ -1,9 +1,7 @@
 import json
 from src.myapp.schemas.FilialSchema import FilialSchema
 from sqlalchemy.orm import Session
-from sqlalchemy import select
-from src.myapp.models.Usuario import Usuario
-from typing import List, Optional
+from typing import List
 from src.myapp.schemas.ConexaoSchema import ConexaoSchema
 from pathlib import Path
 from fastapi import HTTPException, status
@@ -24,29 +22,19 @@ def get_infosDB(filial:str) -> ConexaoSchema:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=f"Filial {filial} não encontrada.")
 
 
-def filiaisJsonToSchema(secao: Session, idUsuario: Optional[int] = None) -> List[FilialSchema]:
-
-    filiaisPermitidas = getFiliaisPermitidas(idUsuario, secao) if idUsuario else []
+def filiaisJsonToSchema() -> List[FilialSchema]:
 
     with open(PATH_JSON_CONEXOES_FIREBIRD, "r", encoding='utf-8') as arq_json:
         conexoes = json.load(arq_json)
         
-    return [FilialSchema(nomeFilial=con["nome"], valorTeto=con["limite"], filialPermitida=con["nome"] in filiaisPermitidas) 
+    return [FilialSchema(nomeFilial=con["nome"], valorTeto=con["limite"], filialPermitida=con["nome"]) 
             for con in conexoes 
             if con['status']]
 
 
-def getFiliaisPermitidas(idUsuario: int, secao: Session) -> list:
-    usuario = secao.scalar(select(Usuario).where(Usuario.id == idUsuario))
+def readFiliais() -> List[FilialSchema]:
 
-    if usuario is None:
-        return None
-
-    return usuario.filiais
-
-def readFiliais(idUsuario: int, secao: Session) -> List[FilialSchema]:
-
-    filiaisDisponiveis = filiaisJsonToSchema(secao, idUsuario)
+    filiaisDisponiveis = filiaisJsonToSchema()
 
     return filiaisDisponiveis
 

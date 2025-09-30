@@ -1,11 +1,8 @@
-from typing import Union
-
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.myapp.routers.filiais import filiais_router
-from src.myapp.routers.usuarios import usuarios_router
 
 import os
 from dotenv import load_dotenv
@@ -25,6 +22,5 @@ app.add_middleware(
 )
 
 app.include_router(filiais_router)
-app.include_router(usuarios_router)
 
 
